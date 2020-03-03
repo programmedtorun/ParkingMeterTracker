@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<DialogPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sample.NewMeterController"
+            prefHeight="400.0" prefWidth="600.0">
+
+    <headerText>
+        Create a Parking Meter!
+    </headerText>
+    <content>
+        <GridPane vgap="10" hgap="10">
+            <Label text="Max Time:" GridPane.rowIndex="0" GridPane.columnIndex="0">
+                <tooltip>
+                    <Tooltip text="Enter the maximum amount of time for this parking meter."/>
+                </tooltip>
+            </Label>
+            <Spinner fx:id="maxTime" GridPane.rowIndex="0" GridPane.columnIndex="1">
+                <valueFactory>
+                    <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="200"/>
+                </valueFactory>
+            </Spinner>
+            <Label text="Rate:"  GridPane.rowIndex="1" GridPane.columnIndex="0">
+                <tooltip>
+                    <Tooltip text="Enter the rate (minutes/$0.25) for parking meter."/>
+                </tooltip>
+            </Label>
+            <Spinner fx:id="rate" GridPane.rowIndex="1" GridPane.columnIndex="1">
+                <valueFactory>
+                    <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="15"/>
+                </valueFactory>
+            </Spinner>
+        </GridPane>
+    </content>
+</DialogPane>
+
+
+
+
+
+        
