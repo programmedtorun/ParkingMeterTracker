@@ -56,7 +56,7 @@ public class ParkingMeterData {
             int count = 1;
             try (ObjectOutputStream file = new ObjectOutputStream(new BufferedOutputStream(new FileOutputStream(filename)))) {
                 for(ParkingMeter meter : parkingMeters) {
-                    System.out.println("storing " + count + " meter, with max time: " + meter.getMaxTime());
+                    System.out.println("Storing meter #" + count + ". With max time: " + meter.getMaxTime());
                     file.writeObject(meter);
                     count++;
                 }
