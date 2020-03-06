@@ -1,16 +1,16 @@
 package sample.controllers;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
-import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import sample.datamodel.ParkingMeter;
 import sample.datamodel.ParkingMeterData;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 public class ParkingMeterListController {
 
@@ -23,7 +23,20 @@ public class ParkingMeterListController {
     @FXML
     private ListView<ParkingMeter> pmListView;
 
+    @FXML
+    private ContextMenu listContextMenu; //will associate context menu with cell factory
+
     public void initialize(){
+        listContextMenu = new ContextMenu();
+        MenuItem deleteMenuItem = new MenuItem("Delete");
+        deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                ParkingMeter meter = pmListView.getSelectionModel().getSelectedItem();
+                deleteMeter(meter);
+            }
+        });
+        listContextMenu.getItems().addAll(deleteMenuItem);
         pmListView.setItems(ParkingMeterData.getInstance().getParkingMeters());
         pmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         selectItem(pmListView.getItems().get(0));
@@ -48,6 +61,15 @@ public class ParkingMeterListController {
                         }
                     }
                 };
+                cell.emptyProperty().addListener(
+                        (obs, wasEmpty, isNowEmpty) -> {
+                            if (isNowEmpty){
+                                cell.setContextMenu(null);
+                            } else {
+                                cell.setContextMenu(listContextMenu);
+                            }
+                        }
+                );
                 return cell;
             }
         });
@@ -58,5 +80,15 @@ public class ParkingMeterListController {
         cumSecElapsedTextArea.setText(Long.toString(meter.getCumSecElapsed()));
 //        DateTimeFormatter df = DateTimeFormatter.ofPattern("MMMM d, yyyy - h:ma");
 //        begTime.setText(df.format(meter.getBegTime()));
+    }
+    public void deleteMeter(ParkingMeter meter){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete Parking Meter");
+        alert.setHeaderText("Delete Meter with max time: " + meter.getMaxTime());
+        alert.setContentText("Are you sure? Click OK.");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK){
+            ParkingMeterData.getInstance().deleteParkingMeter(meter);
+        }
     }
 }

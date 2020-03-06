@@ -61,6 +61,9 @@ public class ParkingMeterData {
                     count++;
                 }
             }
+        }
 
+        public void deleteParkingMeter(ParkingMeter meter){
+            getParkingMeters().remove(meter);
         }
 }
