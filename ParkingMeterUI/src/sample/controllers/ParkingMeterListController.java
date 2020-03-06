@@ -1,9 +1,14 @@
 package sample.controllers;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import sample.datamodel.ParkingMeter;
@@ -26,6 +31,9 @@ public class ParkingMeterListController {
     @FXML
     private ContextMenu listContextMenu; //will associate context menu with cell factory
 
+    @FXML
+    private TextField quarterCount;
+
     public void initialize(){
         listContextMenu = new ContextMenu();
         MenuItem deleteMenuItem = new MenuItem("Delete");
@@ -34,6 +42,16 @@ public class ParkingMeterListController {
             public void handle(ActionEvent event) {
                 ParkingMeter meter = pmListView.getSelectionModel().getSelectedItem();
                 deleteMeter(meter);
+            }
+        });
+        // ensures text input is numeric
+        quarterCount.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue,
+                                String newValue) {
+                if (!newValue.matches("\\d*")) {
+                    quarterCount.setText(newValue.replaceAll("[^\\d]", ""));
+                }
             }
         });
         listContextMenu.getItems().addAll(deleteMenuItem);
@@ -81,6 +99,13 @@ public class ParkingMeterListController {
 //        DateTimeFormatter df = DateTimeFormatter.ofPattern("MMMM d, yyyy - h:ma");
 //        begTime.setText(df.format(meter.getBegTime()));
     }
+
+    @FXML
+    public void handleQuarterAdding(){
+        ParkingMeter meter = pmListView.getSelectionModel().getSelectedItem();
+        meter.insertQuarters(Integer.parseInt(quarterCount.getText()));
+    }
+
     public void deleteMeter(ParkingMeter meter){
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Delete Parking Meter");

@@ -28,7 +28,7 @@
     </top>
 
     <left >
-        <ListView fx:id="pmListView" editable="true" > <!--onKeyPressed="#handleKeyPress" onMouseClicked="#handleClickListView"-->
+        <ListView fx:id="pmListView" editable="true"> <!--onKeyPressed="#handleKeyPress" onMouseClicked="#handleClickListView"-->
 
         </ListView>
     </left>
@@ -37,6 +37,10 @@
         <VBox style="-fx-background-color: white">
             <!--tells vbox to always give as much room as possible to txarea-->
             <TextArea fx:id="cumSecElapsedTextArea"/>
+            <TextField fx:id="quarterCount"></TextField>
+            <Button text="Add Quarters" onAction="#handleQuarterAdding">
+
+            </Button>
             <HBox>
                 <TextArea fx:id="begTime" style="-fx-background-color: white">
                     <Label style="-fx-background-color: white">
