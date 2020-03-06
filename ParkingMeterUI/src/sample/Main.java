@@ -14,7 +14,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parent root;
-        root = FXMLLoader.load(getClass().getResource("mainwindow.fxml"));
+        root = FXMLLoader.load(getClass().getResource("views/mainwindow.fxml"));
         primaryStage.setTitle("Parking Meter Tracker");
         primaryStage.setScene(new Scene(root, 1200, 600));
         primaryStage.show();

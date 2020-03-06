@@ -11,7 +11,7 @@
 <?import javafx.scene.image.Image?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sample.ParkingMeterListController"
+            fx:controller="sample.controllers.ParkingMeterListController"
             prefHeight="400.0" prefWidth="600.0">
     <top>
         <VBox>

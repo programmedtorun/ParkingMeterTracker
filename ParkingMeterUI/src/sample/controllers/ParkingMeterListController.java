@@ -1,4 +1,4 @@
-package sample;
+package sample.controllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ListCell;
