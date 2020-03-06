@@ -1,20 +1,14 @@
 package sample.controllers;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import sample.datamodel.ParkingMeter;
 import sample.datamodel.ParkingMeterData;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class ParkingMeterListController {
@@ -68,7 +62,7 @@ public class ParkingMeterListController {
                         if(empty){
                             setText(null);
                         }else{
-                            setText("Secs elapsed:\t\t" + Long.toString(meter.getCumSecElapsed()) + "\n" +
+                            setText("Time Remaining:\t\t" + meter.checkTimeRemaining() + "\n" +
                                     "Max Time:\t\t" + Integer.toString(meter.getMaxTime()) + "\n" +
                                     "Rate:\t\t\t" + Integer.toString(meter.getRate()));
 //                            if(item.getDeadline().isBefore(LocalDate.now().plusDays(1))){
