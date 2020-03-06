@@ -24,7 +24,7 @@ public class ParkingMeterListController {
     private ListView<ParkingMeter> pmListView;
 
     public void initialize(){
-        pmListView.getItems().setAll(ParkingMeterData.getInstance().getParkingMeters());
+        pmListView.setItems(ParkingMeterData.getInstance().getParkingMeters());
         pmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         selectItem(pmListView.getItems().get(0));
         pmListView.setCellFactory(new Callback<ListView<ParkingMeter>, ListCell<ParkingMeter>>() {
