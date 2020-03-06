@@ -27,8 +27,8 @@
         </VBox>
     </top>
 
-    <left>
-        <ListView fx:id="pmListView" > <!--onKeyPressed="#handleKeyPress" onMouseClicked="#handleClickListView"-->
+    <left >
+        <ListView fx:id="pmListView" editable="true" > <!--onKeyPressed="#handleKeyPress" onMouseClicked="#handleClickListView"-->
 
         </ListView>
     </left>
