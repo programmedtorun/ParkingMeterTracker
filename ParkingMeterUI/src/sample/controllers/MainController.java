@@ -1,5 +1,6 @@
-package sample;
+package sample.controllers;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,21 +9,18 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import sample.datamodel.ParkingMeter;
-import sample.datamodel.ParkingMeterData;
 
 import java.io.IOException;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
 
-public class Controller {
+public class MainController {
 
     @FXML
     private ListView<ParkingMeter> pmListView;
 
     @FXML
     private Button meterListButton;
-    private List<ParkingMeter> parkingMeters;
+    private ObservableList<ParkingMeter> parkingMeters;
 
     @FXML
     private BorderPane mainBorderPane;
@@ -37,7 +35,7 @@ public class Controller {
         // only be able to interact when dialog is open default is modiel:
         try {
             Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("parkingmeterlist.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/parkingmeterlist.fxml"));
             Parent root = fxmlLoader.load();
             stage.setTitle("PM List");
             stage.setScene(new Scene(root));
@@ -54,7 +52,7 @@ public class Controller {
         dialog.initOwner(mainBorderPane.getScene().getWindow());
         dialog.setTitle("Create New Parking Meter");
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("newmeterdialog.fxml"));
+        fxmlLoader.setLocation(getClass().getResource("../views/newmeterdialog.fxml"));
         try {
             dialog.getDialogPane().setContent(fxmlLoader.load());
         } catch (IOException e){
@@ -67,9 +65,7 @@ public class Controller {
         Optional<ButtonType> result = dialog.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK){
             NewMeterController ctrl = fxmlLoader.getController();
-            ParkingMeter newMeter = ctrl.processResults();
-            // reset listview to updated list:
-            pmListView.getItems().add(newMeter); //no longer need line due to observable list data bindings.
+            ctrl.createNewMeter();
         }
     }
 

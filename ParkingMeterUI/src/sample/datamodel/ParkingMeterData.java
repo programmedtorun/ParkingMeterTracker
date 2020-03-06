@@ -10,7 +10,7 @@ public class ParkingMeterData {
         private static ParkingMeterData instance = new ParkingMeterData();
         private static String filename = "parkingmeters.dat";
 
-        // bind ListView (Controller) to ObservableList (maybe eventually)
+        // bind ListView (MainController) to ObservableList (maybe eventually)
         private List<ParkingMeter> parkingMeters;
         private DateTimeFormatter formatter;
 
