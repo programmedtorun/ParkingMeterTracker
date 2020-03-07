@@ -54,65 +54,35 @@ public class ParkingMeter implements Serializable {
 
     public void insertQuarters(int numQsInserted){
         if (begTime == null || time == 0){
-            begTime = LocalDateTime.now();
-            time = 0;
-            secElapsed = null;
-            cumSecElapsed = 0L;
+            begTime = LocalDateTime.now(); time = 0; secElapsed = null; cumSecElapsed = 0L;
         }
         long maxQsAccepted = ((maxTime - (time / 60)) / rate);
-        if (numQsInserted > maxQsAccepted){
+        if (numQsInserted > maxQsAccepted){ // #seconds bought
             time += (maxQsAccepted * rate * 60);
         } else {
-            time += (numQsInserted * rate * 60); // number of seconds
-            System.out.println("you inserted " + numQsInserted + " number of quarters. time is: " + time );
+            time += (numQsInserted * rate * 60);
         }
-        System.out.println("You now have " + (time / 60.0) + " minutes on this meter.");
     }
 
     public String checkTimeRemaining(){
         if (begTime != null) {
-            System.out.println("begTime is not null!");
             Duration duration = Duration.between(begTime, LocalDateTime.now());
             if (secElapsed == null) {
                 secElapsed = duration.getSeconds();
                 cumSecElapsed += secElapsed;
-//                maxTime += (cumSecElapsed / 60);
-//                time -= secElapsed;
             } else {
-                // Need this line in the event checkTimeRemaining() is called with no sleep time in between.
-//                if(secElapsed == 0){
-//                    secElapsed = initialTime;
-//                }
-//                initialTime = secElapsed;
-
-                // Subtracting the cumulative seconds that have elapsed and been calculated from waiting (sleep)
                 secElapsed = duration.getSeconds() - cumSecElapsed;
                 cumSecElapsed += secElapsed;
             }
-            System.out.println("***** time is: ******" + time);
-            System.out.println("***** secElapsed is: ******" + time);
-            System.out.println("***** cumSecElapsed is: ******" + time);
-
             if (time <= 0) {
-                begTime = null;
-                secElapsed = null;
-                cumSecElapsed = 0L;
-                time = 0;
-                System.out.println("cum sec elap: " + cumSecElapsed);
-                System.out.println("time is: " + time);
-                System.out.println("Expired meter");
+                begTime = null; secElapsed = null; cumSecElapsed = 0L; time = 0;
             } else {
                 time -= secElapsed;
-                System.out.println("maxTime here is: " + maxTime);
             }
-            return String.format("%d:%02d:%02d", time / 3600,
-                    (time % 3600) / 60, time % 60);
         } else {
-            System.out.println("begTime IS null!");
-            secElapsed = null;
-            cumSecElapsed = 0L;
-            time = 0;
-            return "00:00:00";
+            secElapsed = null; cumSecElapsed = 0L; time = 0;
         }
+        return String.format("%d:%02d:%02d", time / 3600,
+                (time % 3600) / 60, time % 60);
     }
 }
