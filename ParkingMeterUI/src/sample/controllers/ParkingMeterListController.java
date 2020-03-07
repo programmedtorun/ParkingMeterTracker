@@ -64,15 +64,8 @@ public class ParkingMeterListController {
                         }else{
                             int maxTm = meter.getMaxTime();
                             int tm = (int) meter.getTime();
-                            if (tm <= 0){
-
-                                tm = 0;
-                                System.out.println("HELLO FROM IN HERE! TIME SHOULD BE ZERO: " + String.valueOf(tm));
-                            }
-                            System.out.println("MAX TIME IS: " + maxTm);
-                            System.out.println("TIME IS: " + tm);
                             setText("Time Remaining:\t\t" + meter.checkTimeRemaining() + "\n" +
-                                    "Avail. min. for purchase:\t" + String.valueOf(maxTm - (tm / 60)) + "\n" +
+                                    "Avail. min. for purchase:\t" + (maxTm - (tm / 60)) + "\n" +
                                     "Rate:\t\t\t" + Integer.toString(meter.getRate()));
 //                            if(item.getDeadline().isBefore(LocalDate.now().plusDays(1))){
 //                                setTextFill(Color.RED);
