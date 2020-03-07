@@ -26,8 +26,6 @@ public class MainController {
     private BorderPane mainBorderPane;
 
     public void initialize(){
-//        pmListView.getItems().setAll(ParkingMeterData.getInstance().getParkingMeters());
-//        pmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
     }
 
     @FXML
