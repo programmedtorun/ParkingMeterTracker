@@ -18,12 +18,12 @@ The constructor should take the maximum parking minutes and the rate.
 public class ParkingMeter implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private int maxTime; // minutes
+    public int maxTime; // minutes
     private int rate; // minutes per $0.25
-    private long time; //seconds
+    public long time; //seconds
     private long initialTime;
     private LocalDateTime begTime;
-    private Long secElapsed;
+    public Long secElapsed;
     private long cumSecElapsed;
 
     public ParkingMeter(int maxTime, int rate){
@@ -47,6 +47,10 @@ public class ParkingMeter implements Serializable {
         return rate;
     }
 
+    public long getTime() {
+        return time;
+    }
+
     public long getInitialTime() {
         return initialTime;
     }
@@ -60,6 +64,9 @@ public class ParkingMeter implements Serializable {
     }
 
     public void insertQuarters(int numQsInserted){
+        if (begTime == null || time == 0){
+            this.begTime = LocalDateTime.now();
+        }
         System.out.println("Insert quarters.  " +
                 "Meter time remaining is: " + this.checkTimeRemaining());
         long maxQsAccepted = (maxTime / rate);
@@ -73,33 +80,46 @@ public class ParkingMeter implements Serializable {
             time += numQsInserted * rate * 60; // number of seconds
             maxTime -= (numQsInserted * rate);
         }
-        if (begTime == null){
-            this.begTime = LocalDateTime.now();
-        }
-        System.out.println("You now have " + (time / 60) + " minutes on this meter.");
+        System.out.println("You now have " + (time / 60.0) + " minutes on this meter.");
     }
 
     public String checkTimeRemaining(){
+        System.out.println("cumsecelapsed is: " + cumSecElapsed);
         if (begTime != null){
             Duration duration = Duration.between(begTime, LocalDateTime.now());
             if(secElapsed == null){
                 secElapsed = duration.getSeconds();
                 cumSecElapsed += secElapsed;
+//                maxTime += (cumSecElapsed / 60);
+//                time -= secElapsed;
             } else {
                 // Need this line in the event checkTimeRemaining() is called with no sleep time in between.
-                if(secElapsed == 0){ secElapsed = initialTime; } initialTime = secElapsed;
+//                if(secElapsed == 0){
+//                    secElapsed = initialTime;
+//                }
+//                initialTime = secElapsed;
 
                 // Subtracting the cumulative seconds that have elapsed and been calculated from waiting (sleep)
                 secElapsed = duration.getSeconds() - cumSecElapsed;
-
                 cumSecElapsed += secElapsed;
+
+
             }
-            if (cumSecElapsed >= time){
+//            maxTime += (secElapsed / 60.0);
+            System.out.println("maxTime here is: " + maxTime);
+            time -= secElapsed;
+            if (time <= 0){
+                begTime = null;
+                secElapsed = 0L;
+                cumSecElapsed = 0L;
+                time = 0;
+                System.out.println("cum sec elap: " + cumSecElapsed);
+                System.out.println("time is: " + time);
                 System.out.println("Expired meter");
-            } else {
-                maxTime += (cumSecElapsed / 60);
-                time -= secElapsed;
-            }
+            } //else {
+//                maxTime += (cumSecElapsed / 60);
+//                time -= secElapsed;
+//            }
             return String.format("%d:%02d:%02d", time / 3600,
                     (time % 3600) / 60, time % 60);
         } else {

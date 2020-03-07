@@ -62,8 +62,17 @@ public class ParkingMeterListController {
                         if(empty){
                             setText(null);
                         }else{
+                            int maxTm = meter.getMaxTime();
+                            int tm = (int) meter.getTime();
+                            if (tm <= 0){
+
+                                tm = 0;
+                                System.out.println("HELLO FROM IN HERE! TIME SHOULD BE ZERO: " + String.valueOf(tm));
+                            }
+                            System.out.println("MAX TIME IS: " + maxTm);
+                            System.out.println("TIME IS: " + tm);
                             setText("Time Remaining:\t\t" + meter.checkTimeRemaining() + "\n" +
-                                    "Max Time:\t\t" + Integer.toString(meter.getMaxTime()) + "\n" +
+                                    "Avail. min. for purchase:\t" + String.valueOf(maxTm - (tm / 60)) + "\n" +
                                     "Rate:\t\t\t" + Integer.toString(meter.getRate()));
 //                            if(item.getDeadline().isBefore(LocalDate.now().plusDays(1))){
 //                                setTextFill(Color.RED);
@@ -89,7 +98,8 @@ public class ParkingMeterListController {
     }
     public void selectItem(ParkingMeter meter){
         pmListView.getSelectionModel().select(meter);
-        cumSecElapsedTextArea.setText(Long.toString(meter.getCumSecElapsed()));
+        double minExpended = meter.getCumSecElapsed();
+        cumSecElapsedTextArea.setText("Minutes Expended on meter: " + String.valueOf(minExpended / 60.0));
 //        DateTimeFormatter df = DateTimeFormatter.ofPattern("MMMM d, yyyy - h:ma");
 //        begTime.setText(df.format(meter.getBegTime()));
     }

@@ -37,10 +37,13 @@
         <VBox style="-fx-background-color: white">
             <!--tells vbox to always give as much room as possible to txarea-->
             <TextArea fx:id="cumSecElapsedTextArea"/>
-            <TextField fx:id="quarterCount"></TextField>
-            <Button text="Add Quarters" onAction="#handleQuarterAdding">
-
-            </Button>
+            <HBox>
+                <Label text="Number of Quarters to Add: "/>
+                <TextField fx:id="quarterCount">
+                </TextField>
+                <Button text="Add Quarters" onAction="#handleQuarterAdding">
+                </Button>
+            </HBox>
             <HBox>
                 <TextArea fx:id="begTime" style="-fx-background-color: white">
                     <Label style="-fx-background-color: white">
@@ -54,3 +57,31 @@
     </center>
 
 </BorderPane>
+
+
+<!--<Label text="Number of Quarters to Add: " style="-fx-background-color: white">-->
+<!--<font>-->
+    <!--<Font name="Times New Roman bold" size="14"/>-->
+<!--</font>-->
+<!--</Label>-->
+
+
+
+<!--<center>-->
+<!--<VBox style="-fx-background-color: white">-->
+    <!--&lt;!&ndash;tells vbox to always give as much room as possible to txarea&ndash;&gt;-->
+    <!--<TextArea fx:id="itemDeteilsTextArea" wrapText="true" VBox.vgrow="ALWAYS"/>-->
+    <!--<HBox>-->
+        <!--<Label text="Due: " style="-fx-background-color: white">-->
+            <!--<font>-->
+                <!--<Font name="Times New Roman bold" size="20"/>-->
+            <!--</font>-->
+        <!--</Label>-->
+        <!--<Label fx:id="deadlineLabel" style="-fx-background-color: white">-->
+            <!--<font>-->
+                <!--<Font name="Times New Roman bold" size="20"/>-->
+            <!--</font>-->
+        <!--</Label>-->
+    <!--</HBox>-->
+<!--</VBox>-->
+<!--</center>-->
