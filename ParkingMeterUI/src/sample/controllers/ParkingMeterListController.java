@@ -2,6 +2,8 @@ package sample.controllers;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -12,10 +14,9 @@ import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import sample.datamodel.ParkingMeter;
 import sample.datamodel.ParkingMeterData;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.Optional;
+import java.util.function.Predicate;
 
 public class ParkingMeterListController {
 
@@ -37,7 +38,13 @@ public class ParkingMeterListController {
     @FXML
     private TextField quarterCount;
 
+    private FilteredList<ParkingMeter> filteredList;
+    private Predicate<ParkingMeter> currentlyRunning;
+    private Predicate<ParkingMeter> wantAllMeters;
+
     public void initialize(){
+
+        // Adds delete functionality context menu
         listContextMenu = new ContextMenu();
         MenuItem deleteMenuItem = new MenuItem("Delete");
         deleteMenuItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -47,7 +54,8 @@ public class ParkingMeterListController {
                 deleteMeter(meter);
             }
         });
-        // ensures text input is numeric
+
+        // Ensures quarter input is numeric
         quarterCount.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue,
@@ -57,10 +65,44 @@ public class ParkingMeterListController {
                 }
             }
         });
+
+        // provide currently running meter list:
+        currentlyRunning = new Predicate<ParkingMeter>() {
+            @Override
+            public boolean test(ParkingMeter meter) {
+                return (meter.getTime() > 0);
+            }
+        };
+        wantAllMeters = new Predicate<ParkingMeter>() {
+            @Override
+            public boolean test(ParkingMeter meter) {
+                return true;
+            }
+        };
+
+        filteredList = new FilteredList<ParkingMeter>(ParkingMeterData.getInstance().getParkingMeters(), wantAllMeters);
+
+        // Sorting based on meter max time
+        SortedList<ParkingMeter> sortedList = new SortedList<ParkingMeter>(filteredList,
+            new Comparator<ParkingMeter>() {
+                @Override
+                public int compare(ParkingMeter o1, ParkingMeter o2) {
+                    if(o1.getMaxTime() < o2.getMaxTime()){
+                        return -1;
+                    } else if(o1.getMaxTime() == o2.getMaxTime()){
+                        return 0;
+                    } else {
+                        return 1;
+                    }
+                }
+            }
+        );
+
+        // Important code - sets list to UI
         listContextMenu.getItems().addAll(deleteMenuItem);
-        pmListView.setItems(ParkingMeterData.getInstance().getParkingMeters());
+        pmListView.setItems(sortedList);
         pmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-//        selectMeter(pmListView.getItems().get(0));
+        selectMeter(pmListView.getItems().get(0));
         pmListView.setCellFactory(new Callback<ListView<ParkingMeter>, ListCell<ParkingMeter>>() {
             @Override
             public ListCell<ParkingMeter> call(ListView<ParkingMeter> param) {
@@ -97,15 +139,14 @@ public class ParkingMeterListController {
                 return cell;
             }
         });
-
     }
+
     public void selectMeter(ParkingMeter meter){
         pmListView.getSelectionModel().select(meter);
         begTime.setText("Beginning time:\n\n" + meter.getBegTime());
         double num = meter.getCumSecElapsed() / 60.0;
         String forNum = String.format("%.2f", num);
         cumSecElapsedTextArea.setText("Minutes elapsed:\n\n" + forNum);
-
     }
 
     @FXML
@@ -122,12 +163,7 @@ public class ParkingMeterListController {
     public void handleClickListView(){
         ParkingMeter meter = pmListView.getSelectionModel().getSelectedItem();
         selectMeter(meter);
-
     }
-
-
-
-
 
     @FXML
     public void handleQuarterAdding(){
@@ -143,6 +179,15 @@ public class ParkingMeterListController {
         Optional<ButtonType> result = alert.showAndWait();
         if(result.isPresent() && result.get() == ButtonType.OK){
             ParkingMeterData.getInstance().deleteParkingMeter(meter);
+        }
+    }
+
+    @FXML
+    public void handleFilterButton(){
+        if(filterToggleButton.isSelected()){
+            filteredList.setPredicate(currentlyRunning);
+        } else {
+            filteredList.setPredicate(wantAllMeters);
         }
     }
 }

@@ -1,5 +1,6 @@
 package sample.controllers;
 
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -30,7 +31,6 @@ public class MainController {
 
     @FXML
     public void showMeterList(){
-        // only be able to interact when dialog is open default is modiel:
         try {
             Stage stage = new Stage();
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../views/parkingmeterlist.fxml"));
@@ -65,5 +65,10 @@ public class MainController {
             NewMeterController ctrl = fxmlLoader.getController();
             ctrl.createNewMeter();
         }
+    }
+
+    @FXML
+    public void handleExit(){
+        Platform.exit();
     }
 }

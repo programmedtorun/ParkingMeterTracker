@@ -1,22 +1,8 @@
 package sample.datamodel;
 
 import java.io.Serializable;
-import java.time.DayOfWeek;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-/*
-Design and implement a class 'ParkingMeter' for parking meters.
-The class has three member variables: 'maxTime' for maximum parking minutes,
-'rate' for parking rate (minutes per quarter), and 'time' for remaining parking time.
-
-The class should provide member functions for the client to insert quarters and check
-remaining parking time.
-
-The constructor should take the maximum parking minutes and the rate.
- */
 
 public class ParkingMeter implements Serializable {
 

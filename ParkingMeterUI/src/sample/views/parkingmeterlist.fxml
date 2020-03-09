@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.text.Font?>
-
+<?import javafx.geometry.Insets?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="sample.controllers.ParkingMeterListController"
             prefHeight="400.0" prefWidth="600.0">
+    <padding>
+        <Insets right="5" bottom="5" top="5" left="5"/>
+    </padding>
     <top>
         <VBox>
             <ToolBar>
                 <HBox>
-                    <ToggleButton text="Running Meters" onAction="handleToggle" fx:id="filterToggleButton">  <!--need onAction and fx:id="filterToggleButton"-->
+                    <ToggleButton text="Running Meters" onAction="#handleFilterButton" fx:id="filterToggleButton">
                         <tooltip>
                             <Tooltip text="Show only meters that are currently running"/>
                         </tooltip>
@@ -22,62 +23,21 @@
             </ToolBar>
         </VBox>
     </top>
-
     <left >
-        <ListView fx:id="pmListView" editable="true" onKeyPressed="#handleKeyPress" onMouseClicked="#handleClickListView"> <!--onKeyPressed="#handleKeyPress" onMouseClicked="#handleClickListView"-->
-
+        <ListView fx:id="pmListView" editable="true" onKeyPressed="#handleKeyPress" onMouseClicked="#handleClickListView">
         </ListView>
     </left>
-    <!--adding center portion-->
     <center>
         <VBox style="-fx-background-color: white">
-            <!--tells vbox to always give as much room as possible to txarea-->
             <TextArea fx:id="cumSecElapsedTextArea"/>
             <HBox>
-                <Label text="# Quarters:"/>
-                <TextField fx:id="quarterCount">
-                </TextField>
-                <Button text="Add Quarters" onAction="#handleQuarterAdding">
-                </Button>
+                <Label text="  # Qtrs:  "/>
+                <TextField fx:id="quarterCount"/>
+                <Button text="Add Quarters" onAction="#handleQuarterAdding"/>
             </HBox>
             <HBox>
-                <TextArea fx:id="begTime" >
-                    <!--<Label text="hello!">-->
-                        <!--<font>-->
-                            <!--<Font name="Times New Roman bold" size="20"/>-->
-                        <!--</font>-->
-                    <!--</Label>-->
-                </TextArea>
+                <TextArea fx:id="begTime"/>
             </HBox>
         </VBox>
     </center>
-
 </BorderPane>
-
-
-<!--<Label text="Number of Quarters to Add: " style="-fx-background-color: white">-->
-<!--<font>-->
-    <!--<Font name="Times New Roman bold" size="14"/>-->
-<!--</font>-->
-<!--</Label>-->
-
-
-
-<!--<center>-->
-<!--<VBox style="-fx-background-color: white">-->
-    <!--&lt;!&ndash;tells vbox to always give as much room as possible to txarea&ndash;&gt;-->
-    <!--<TextArea fx:id="itemDeteilsTextArea" wrapText="true" VBox.vgrow="ALWAYS"/>-->
-    <!--<HBox>-->
-        <!--<Label text="Due: " style="-fx-background-color: white">-->
-            <!--<font>-->
-                <!--<Font name="Times New Roman bold" size="20"/>-->
-            <!--</font>-->
-        <!--</Label>-->
-        <!--<Label fx:id="deadlineLabel" style="-fx-background-color: white">-->
-            <!--<font>-->
-                <!--<Font name="Times New Roman bold" size="20"/>-->
-            <!--</font>-->
-        <!--</Label>-->
-    <!--</HBox>-->
-<!--</VBox>-->
-<!--</center>-->

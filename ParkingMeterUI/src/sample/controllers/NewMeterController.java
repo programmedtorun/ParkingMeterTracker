@@ -17,8 +17,6 @@ public class NewMeterController {
     public ParkingMeter createNewMeter(){
         int maxTimeValue = maxTime.getValue();
         int rateValue = rate.getValue();
-        System.out.println("max time is: " + maxTime);
-        System.out.println("rate is: " + rate);
         ParkingMeter meter = new ParkingMeter(maxTimeValue, rateValue);
         ParkingMeterData.getInstance().getParkingMeters().add(meter);
         return meter;

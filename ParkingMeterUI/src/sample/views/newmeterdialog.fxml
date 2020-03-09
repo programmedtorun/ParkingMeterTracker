@@ -5,13 +5,13 @@
 <DialogPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="sample.controllers.NewMeterController"
-            prefHeight="400.0" prefWidth="600.0">
+            prefHeight="200.0" prefWidth="300.0">
 
     <headerText>
         Create a Parking Meter!
     </headerText>
     <content>
-        <GridPane vgap="10" hgap="10">
+        <GridPane vgap="20" hgap="20">
             <Label text="Max Time:" GridPane.rowIndex="0" GridPane.columnIndex="0">
                 <tooltip>
                     <Tooltip text="Enter the maximum amount of time for this parking meter."/>
