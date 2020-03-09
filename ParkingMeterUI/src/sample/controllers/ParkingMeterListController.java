@@ -6,12 +6,21 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.paint.Color;
 import javafx.util.Callback;
 import sample.datamodel.ParkingMeter;
 import sample.datamodel.ParkingMeterData;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 public class ParkingMeterListController {
+
+    @FXML
+    private ToggleButton filterToggleButton;
 
     @FXML
     private TextArea cumSecElapsedTextArea;
@@ -51,7 +60,7 @@ public class ParkingMeterListController {
         listContextMenu.getItems().addAll(deleteMenuItem);
         pmListView.setItems(ParkingMeterData.getInstance().getParkingMeters());
         pmListView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        selectItem(pmListView.getItems().get(0));
+//        selectMeter(pmListView.getItems().get(0));
         pmListView.setCellFactory(new Callback<ListView<ParkingMeter>, ListCell<ParkingMeter>>() {
             @Override
             public ListCell<ParkingMeter> call(ListView<ParkingMeter> param) {
@@ -63,14 +72,16 @@ public class ParkingMeterListController {
                             setText(null);
                         }else{
                             int tm = (int) meter.getTime();
+                            double num = meter.getMaxTime() - (tm / 60.0);
+                            String forNum = String.format("%.2f", num);
                             setText("Time Remaining:\t\t" + meter.checkTimeRemaining() + "\n" +
-                                    "Avail. min. for purchase:\t" + (meter.getMaxTime() - (tm / 60.0)) + "\n" +
+                                    "Avail. min. for purchase:\t" + forNum + "\n" +
                                     "Rate:\t\t\t" + Integer.toString(meter.getRate()));
-//                            if(item.getDeadline().isBefore(LocalDate.now().plusDays(1))){
-//                                setTextFill(Color.RED);
-//                            } else if(item.getDeadline().equals(LocalDate.now().plusDays(1))){
-//                                setTextFill(Color.ORANGE);
-//                            }
+                            if(tm <= 120 && tm > 0){
+                                setTextFill(Color.RED);
+                            } else if(tm <= 300 && tm > 121){
+                                setTextFill(Color.ORANGE);
+                            }
                         }
                     }
                 };
@@ -88,13 +99,35 @@ public class ParkingMeterListController {
         });
 
     }
-    public void selectItem(ParkingMeter meter){
+    public void selectMeter(ParkingMeter meter){
         pmListView.getSelectionModel().select(meter);
-        double minExpended = meter.getCumSecElapsed();
-        cumSecElapsedTextArea.setText("Minutes Expended on meter: " + String.valueOf(minExpended / 60.0));
-//        DateTimeFormatter df = DateTimeFormatter.ofPattern("MMMM d, yyyy - h:ma");
-//        begTime.setText(df.format(meter.getBegTime()));
+        begTime.setText("Beginning time:\n\n" + meter.getBegTime());
+        double num = meter.getCumSecElapsed() / 60.0;
+        String forNum = String.format("%.2f", num);
+        cumSecElapsedTextArea.setText("Minutes elapsed:\n\n" + forNum);
+
     }
+
+    @FXML
+    public void handleKeyPress(KeyEvent event){
+        ParkingMeter meter = pmListView.getSelectionModel().getSelectedItem();
+        if(meter != null){
+            if(event.getCode().equals(KeyCode.BACK_SPACE)){
+                deleteMeter(meter);
+            }
+        }
+    }
+
+    @FXML
+    public void handleClickListView(){
+        ParkingMeter meter = pmListView.getSelectionModel().getSelectedItem();
+        selectMeter(meter);
+
+    }
+
+
+
+
 
     @FXML
     public void handleQuarterAdding(){

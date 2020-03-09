@@ -1,8 +1,11 @@
 package sample.datamodel;
 
 import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /*
 Design and implement a class 'ParkingMeter' for parking meters.
@@ -34,6 +37,28 @@ public class ParkingMeter implements Serializable {
         this.initialTime = 0L;
         this.cumSecElapsed = 0L;
         this.begTime = null;
+    }
+
+    public String getBegTime(){
+        if (begTime == null){
+            return "Meter is not running, input quarters to start.";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append(begTime.getDayOfWeek());
+            sb.append(" ");
+            sb.append(begTime.getMonth());
+            sb.append(" ");
+            sb.append(begTime.getDayOfMonth());
+            sb.append(", ");
+            sb.append(begTime.getYear());
+            sb.append(" ");
+            sb.append(begTime.getHour());
+            sb.append(":");
+            sb.append(begTime.getMinute());
+            sb.append(":");
+            sb.append(begTime.getSecond());
+            return sb.toString();
+        }
     }
 
     public int getMaxTime() {
