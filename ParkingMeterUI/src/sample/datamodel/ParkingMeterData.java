@@ -2,17 +2,15 @@ package sample.datamodel;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.io.*;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class ParkingMeterData {
 
         private static ParkingMeterData instance = new ParkingMeterData();
         private static String filename = "parkingmeters.dat";
 
-        // bind ListView (MainController) to ObservableList (maybe eventually)
+        // ObservableList binding
         private ObservableList<ParkingMeter> parkingMeters;
         private DateTimeFormatter formatter;
 
@@ -20,15 +18,14 @@ public class ParkingMeterData {
             return instance;
         }
 
-
+        //Ensure can't create other instances of class
         private ParkingMeterData(){
             formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        } //to ensure can't create other instances of class
+        }
 
         public ObservableList<ParkingMeter> getParkingMeters() {
             return parkingMeters ;
         }
-
 
         public void loadParkingMeters() throws IOException {
             parkingMeters = FXCollections.observableArrayList();

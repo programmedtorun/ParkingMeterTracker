@@ -4,17 +4,6 @@ import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-/*
-Design and implement a class 'ParkingMeter' for parking meters.
-The class has three member variables: 'maxTime' for maximum parking minutes,
-'rate' for parking rate (minutes per quarter), and 'time' for remaining parking time.
-
-The class should provide member functions for the client to insert quarters and check
-remaining parking time.
-
-The constructor should take the maximum parking minutes and the rate.
- */
-
 public class ParkingMeter implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,6 +23,28 @@ public class ParkingMeter implements Serializable {
         this.initialTime = 0L;
         this.cumSecElapsed = 0L;
         this.begTime = null;
+    }
+
+    public String getBegTime(){
+        if (begTime == null){
+            return "Meter is not running, input quarters to start.";
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append(begTime.getDayOfWeek());
+            sb.append(" ");
+            sb.append(begTime.getMonth());
+            sb.append(" ");
+            sb.append(begTime.getDayOfMonth());
+            sb.append(", ");
+            sb.append(begTime.getYear());
+            sb.append(" ");
+            sb.append(begTime.getHour());
+            sb.append(":");
+            sb.append(begTime.getMinute());
+            sb.append(":");
+            sb.append(begTime.getSecond());
+            return sb.toString();
+        }
     }
 
     public int getMaxTime() {
