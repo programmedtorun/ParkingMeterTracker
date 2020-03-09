@@ -21,8 +21,4 @@ public class NewMeterController {
         ParkingMeterData.getInstance().getParkingMeters().add(meter);
         return meter;
     }
-
-
-
-
 }
