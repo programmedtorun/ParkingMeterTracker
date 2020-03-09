@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import sample.datamodel.ParkingMeterData;
 
@@ -15,8 +16,11 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root;
         root = FXMLLoader.load(getClass().getResource("views/mainwindow.fxml"));
+        root.setId("mainBPID");
         primaryStage.setTitle("Parking Meter Tracker");
-        primaryStage.setScene(new Scene(root, 1200, 600));
+        Scene scene = new Scene(root, 900, 505);
+        primaryStage.setScene(scene);
+        scene.getStylesheets().addAll(this.getClass().getResource("style.css").toExternalForm());
         primaryStage.show();
     }
 
