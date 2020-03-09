@@ -15,13 +15,13 @@
 <BorderPane fx:id="mainBorderPane" fx:controller="sample.controllers.MainController"
             xmlns:fx="http://javafx.com/fxml" >
     <padding>
-        <Insets top="200" left="200" right="10" bottom="10"/>
+        <Insets top="250" left="200" right="10" bottom="10"/>
     </padding>
 
     <center>
         <GridPane>
             <VBox spacing="50">
-                <Button text="New!" onAction="#showNewPMDialog"  >
+                <Button text="New!" onAction="#showNewPMDialog" fx:id="newMeterButton" >
                     <tooltip>
                         <Tooltip text="Instantiate a New Parking Meter."/>
                     </tooltip>
